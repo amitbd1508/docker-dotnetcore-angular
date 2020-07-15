@@ -3,7 +3,14 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster
 LABEL maintainer="amitbd1508@gmail.com" \
 org.label-schema.vcs-url="https://github.com/amitbd1508/docker-dotnetcore-angular"
 
-RUN apt-get update && apt-get add --no-cache nodejs-current nodejs-npm python make g++ \
-&& npm install -g npm \
-&& npm install -g node-sass --force --unsafe-perm=true --allow-root \
-&& npm install -g @angular/cli
+ENV NODE_VERSION=14.2.0
+RUN apt install -y curl
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+ENV NVM_DIR=/root/.nvm
+RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN node --version
+RUN npm --version
+RUN npm install -g @angular/cli
