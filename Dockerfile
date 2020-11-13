@@ -19,4 +19,5 @@ RUN node --version
 RUN npm --version
 RUN npm config set user 0
 RUN npm config set unsafe-perm true
-RUN npm install -g @angular/cli@latest
+RUN npm install -g @angular/cli@8.3.29
+
